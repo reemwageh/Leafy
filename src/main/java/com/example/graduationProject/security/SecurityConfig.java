@@ -39,7 +39,6 @@ public class SecurityConfig {
                 .requestMatchers("/get/payType/").permitAll()
                 .requestMatchers("/products/all").permitAll()
                 .requestMatchers("/get/products/").permitAll()
-                .requestMatchers("").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
