@@ -1,0 +1,47 @@
+package com.example.graduationProject.Controller;
+
+import com.example.graduationProject.Entity.Product;
+import com.example.graduationProject.Entity.User;
+import com.example.graduationProject.Service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+public class ProductController {
+    @Autowired
+    ProductService productService;
+
+    @PostMapping("/products/create")
+    public Product addNewProduct(@RequestBody Product product){
+        return productService.addNewProduct(product);
+    }
+
+    @PatchMapping("products/addImages/{productId}")
+        public Product addProductImages(@PathVariable int productId, @RequestParam(required = true) MultipartFile productImage,
+                                    @RequestParam(required = false) MultipartFile additionalProductImage) throws IOException {
+        return productService.addProductImages(productId, productImage, additionalProductImage);
+    }
+    @GetMapping("/products/all")
+    public List<Product> getAllUProduct(){
+        return productService.fetachAllProducts();
+    }
+    @GetMapping("/get/products/{productId}")
+    public Optional<Product> getProductById(@PathVariable("productId") int productId){
+        return productService.getProductById(productId);
+    }
+    @PutMapping("/update/products/{productId}")
+    public Product updateProduct(@PathVariable ("productId") int productId,  @RequestBody  Product product){
+        product.setProductId(productId);
+        return productService.updateProduct(productId , product);
+
+    }
+    @DeleteMapping("/delete/products/{productId}")
+    public boolean deleteProduct(@PathVariable ("productId") int productId){
+        return productService.deleteProduct(productId);
+    }
+}
