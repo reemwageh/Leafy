@@ -34,6 +34,12 @@ public class SecurityConfig {
         http.cors().and().csrf().disable().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 .requestMatchers("/login").permitAll()
+                .requestMatchers("/create/cart").permitAll()
+                .requestMatchers("/get/cart/").permitAll()
+                .requestMatchers("/get/payType/").permitAll()
+                .requestMatchers("/products/all").permitAll()
+                .requestMatchers("/get/products/").permitAll()
+                .requestMatchers("").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
