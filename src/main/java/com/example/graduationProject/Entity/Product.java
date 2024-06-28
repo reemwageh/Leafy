@@ -40,6 +40,9 @@ public class Product {
     @Lob
     private byte[] additionalImage;
 
+    @Column(name="quantity")
+    private  int quantity;
+
 //    @ManyToMany(mappedBy = "products")
 //    private Set<Order> orders = new HashSet<>();
 

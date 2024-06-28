@@ -6,9 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="order_ru")
@@ -45,7 +43,7 @@ public class Order {
             joinColumns = @JoinColumn(name = "oid"),
             inverseJoinColumns = @JoinColumn(name = "pid")
     )
-    private Set<Product> products = new HashSet<>();
+    private List<Product> products = new ArrayList<>();
 
 
 

@@ -6,10 +6,7 @@ import com.example.graduationProject.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class OrderServiceImp implements OrderService{
@@ -35,13 +32,26 @@ public class OrderServiceImp implements OrderService{
         return totalPrice;
     }
 
-    @Override
+    private void updateProductQuantity(Order order) {
+        for (Product product : order.getProducts()) {
+            Product fullProduct = productRepository.findById(product.getProductId()).orElseThrow();
+            int newQuantity = fullProduct.getQuantity() - 1;
+            if (newQuantity < 0) {
+                throw new IllegalArgumentException("Not enough stock for product: " + fullProduct.getProductName());
+            }
+            fullProduct.setQuantity(newQuantity);
+            productRepository.save(fullProduct);
+        }
+    }
+
+
     public Order addNewOrder(Order order) {
         order.setOrderCart(cartRepository.findById(order.getOrderCart().getCartId()).orElseThrow());
         order.setOrderPaymentType(paymentTypeRepository.findById(order.getOrderPaymentType().getPaymentId()).orElseThrow());
         order.setOrderShipping(shippingRepository.findById(order.getOrderShipping().getShippingID()).orElseThrow());
         order.setOrderUser(userRepository.findById(order.getOrderUser().getUserId()).orElseThrow());
-        Set<Product> productsSet = new HashSet<>();
+
+        List<Product> productsSet = new ArrayList<>();
         for (Product product : order.getProducts()) {
             Product fullProduct = productRepository.findById(product.getProductId()).orElseThrow();
             productsSet.add(fullProduct);
@@ -50,6 +60,8 @@ public class OrderServiceImp implements OrderService{
 
         float totalPrice = calculateTotalPrice(order);
         order.setTotal_price(totalPrice);
+
+        updateProductQuantity(order);
 
         return orderRepository.save(order);
     }
