@@ -16,6 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 
 @Configuration
@@ -30,17 +33,22 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .requestMatchers("/login").permitAll()
-                .requestMatchers("/create/cart").permitAll()
-                .requestMatchers("/get/cart/").permitAll()
-                .requestMatchers("/get/payType/").permitAll()
-                .requestMatchers("/products/all").permitAll()
-                .requestMatchers("/get/products/").permitAll()
-                .anyRequest().authenticated();
-        http.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
+    public SecurityFilterChain filterChain(HttpSecurity  http) throws Exception {
+//        http.cors().and().csrf().disable().sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+//                .requestMatchers("/login").permitAll()
+//                .requestMatchers("/create/cart").permitAll()
+//                .requestMatchers("/get/cart/").permitAll()
+//                .requestMatchers("/get/payType/").permitAll()
+//                .requestMatchers("/products/all").permitAll()
+//                .requestMatchers("/get/products/").permitAll()
+//                .anyRequest().authenticated();
+//        http.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
+//        return http.build();
+        http.cors().configurationSource(corsConfigurationSource()).and()
+                .csrf().disable()
+                .authorizeRequests()
+                .anyRequest().permitAll(); // Permit all requests for testing
         return http.build();
     }
 
@@ -62,6 +70,19 @@ public class SecurityConfig {
         authProvider.setPasswordEncoder(userPasswordEncoder());
 
         return authProvider;
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://localhost:4173"); // Add your frontend's URL
+        configuration.addAllowedMethod("*"); // Allow all HTTP methods
+        configuration.addAllowedHeader("*"); // Allow all headers
+        configuration.setAllowCredentials(true); // Allow credentials
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
 

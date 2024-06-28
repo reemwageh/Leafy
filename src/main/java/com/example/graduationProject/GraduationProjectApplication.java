@@ -18,20 +18,20 @@ public class GraduationProjectApplication {
 		SpringApplication.run(GraduationProjectApplication.class, args);
 	}
 
-	@Bean
-	public FilterRegistrationBean<CorsFilter> customCorsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration config = new CorsConfiguration();
-		config.addAllowedOriginPattern("http://localhost:4173");
-		config.setAllowCredentials(true);
-		config.addAllowedHeader("*");
-		config.addAllowedMethod("*");
-		source.registerCorsConfiguration("/**", config);
-		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-
-		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-		return bean;
-	}
+//	@Bean
+//	public FilterRegistrationBean<CorsFilter> customCorsFilter() {
+//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		CorsConfiguration config = new CorsConfiguration();
+//		config.addAllowedOriginPattern("*");
+//		config.setAllowCredentials(true);
+//		config.addAllowedHeader("*");
+//		config.addAllowedMethod("*");
+//		source.registerCorsConfiguration("/**", config);
+//		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+//
+//		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+//		return bean;
+//	}
 
 	@Bean
 	public ModelMapper modelMapper() {
