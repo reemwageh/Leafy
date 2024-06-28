@@ -22,7 +22,7 @@ public class GraduationProjectApplication {
 	public FilterRegistrationBean<CorsFilter> customCorsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
-		config.addAllowedOriginPattern("*");
+		config.addAllowedOriginPattern("http://localhost:4173");
 		config.setAllowCredentials(true);
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
