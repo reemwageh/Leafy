@@ -21,7 +21,7 @@ public class ProductServiceImp implements ProductService{
     }
 
     @Override
-    public List<Product> fetachAllProducts() {
+    public List<Product> fetchAllProducts() {
         return productRepository.findAll();
     }
 
@@ -37,7 +37,7 @@ public class ProductServiceImp implements ProductService{
             Product existingProduct = optionalProduct.get();
             existingProduct.setProductName(product.getProductName());
             existingProduct.setProductDesc(product.getProductDesc());
-            existingProduct.setProductCategory(product.getProductCategory());
+            existingProduct.setCategory(product.getCategory());
             existingProduct.setProductId(product.getProductId());
             existingProduct.setPrice(product.getPrice());
             return productRepository.save(existingProduct);
@@ -65,6 +65,10 @@ public class ProductServiceImp implements ProductService{
             product.setAdditionalImage(additionalProductImage.getBytes());
 
         return productRepository.save(product);
+    }
+    @Override
+    public List<Product> getProductsByCategory(String category) {
+        return productRepository.findByCategory(category);
     }
 
 }

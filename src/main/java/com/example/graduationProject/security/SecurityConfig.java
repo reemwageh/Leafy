@@ -33,13 +33,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .requestMatchers("/login").permitAll()
+
                 .requestMatchers("/create/cart").permitAll()
                 .requestMatchers("/get/cart/").permitAll()
                 .requestMatchers("/get/payType/").permitAll()
                 .requestMatchers("/products/all").permitAll()
                 .requestMatchers("/get/products/").permitAll()
                 .requestMatchers("/users/create").permitAll()
+                .requestMatchers("/login").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

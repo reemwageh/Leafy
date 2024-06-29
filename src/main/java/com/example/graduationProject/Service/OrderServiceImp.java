@@ -29,8 +29,12 @@ public class OrderServiceImp implements OrderService{
         for (Product product : order.getProducts()) {
             totalPrice += (float) product.getPrice();
         }
+        if (order.getOrderShipping() != null) {
+            totalPrice += order.getOrderShipping().getPrice();
+        }
         return totalPrice;
     }
+
 
     private void updateProductQuantity(Order order) {
         for (Product product : order.getProducts()) {

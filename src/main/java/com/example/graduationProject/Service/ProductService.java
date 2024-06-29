@@ -11,7 +11,7 @@ public interface ProductService {
 
     Product addNewProduct(Product product);
 
-    List<Product> fetachAllProducts();
+    List<Product> fetchAllProducts();
 
     Optional<Product> getProductById(int productId);
 
@@ -21,4 +21,7 @@ public interface ProductService {
 
 
     Product addProductImages(int productId, MultipartFile productImage, MultipartFile additionalProductImage) throws IOException;
+
+
+    List<Product> getProductsByCategory(String category);
 }

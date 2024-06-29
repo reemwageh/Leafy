@@ -15,6 +15,10 @@ public class Shipping {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="shipping_Id")
     private int shippingID;
+    @Column(name ="city")
+    private String city;
+    @Column(name="price")
+    private int price;
 
 }
 

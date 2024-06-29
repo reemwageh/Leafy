@@ -27,13 +27,22 @@ public class ProductController {
         return productService.addProductImages(productId, productImage, additionalProductImage);
     }
     @GetMapping("/products/all")
-    public List<Product> getAllUProduct(){
-        return productService.fetachAllProducts();
+    public List<Product> getAllProducts(@RequestParam(value = "category", required = false) String category) {
+        if (category != null && !category.isEmpty()) {
+            return productService.getProductsByCategory(category);
+        } else {
+            return productService.fetchAllProducts();
+        }
     }
+
+
+
     @GetMapping("/get/products/{productId}")
     public Optional<Product> getProductById(@PathVariable("productId") int productId){
         return productService.getProductById(productId);
     }
+
+
     @PutMapping("/update/products/{productId}")
     public Product updateProduct(@PathVariable ("productId") int productId,  @RequestBody  Product product){
         product.setProductId(productId);
