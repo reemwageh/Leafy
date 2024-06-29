@@ -32,8 +32,14 @@ public class UserServiceImpl implements UserService{
     private PasswordEncoder passwordEncoder;
     @Autowired
     private ModelMapper modelMapper;
+
+
     @Override
     public User addNewUser(UserDto userDto) {
+        // Check if the email already exists
+        if (userRepository.existsByEmail(userDto.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         Optional<UserType> optionalUserType = userTypeRepository.findById(userDto.getUser_type().getTypeId());
         if (optionalUserType.isPresent()) {
@@ -42,8 +48,13 @@ public class UserServiceImpl implements UserService{
         } else {
             throw new IllegalArgumentException("Invalid UserType ID");
         }
+
+        // Save and return the new user
         return userRepository.save(modelMapper.map(userDto, User.class));
     }
+
+
+
     @Override
     public List<User> fetchAllUsers() {
          return userRepository.findAll();
