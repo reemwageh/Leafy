@@ -15,7 +15,6 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "c_Id")
     private int cartId;
-    @Column(name = "quantity")
-    private int quantity;
+
 
 }
