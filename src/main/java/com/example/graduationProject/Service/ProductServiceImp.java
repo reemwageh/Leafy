@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -72,8 +73,17 @@ public class ProductServiceImp implements ProductService{
     }
 
     @Override
-    public List<Product> searchProducts(String productName) {
-        return productRepository.findByProductNameContainingIgnoreCase(productName);
+    public List<Product> searchProducts(String productName, String category) {
+        if (productName != null && !productName.isEmpty() && category != null && !category.isEmpty()) {
+            return productRepository.findByProductNameContainingIgnoreCaseAndCategoryContainingIgnoreCase(productName, category);
+        } else if (productName != null && !productName.isEmpty()) {
+            return productRepository.findByProductNameContainingIgnoreCase(productName);
+        } else if (category != null && !category.isEmpty()) {
+            return productRepository.findByCategoryContainingIgnoreCase(category);
+        } else {
+            return new ArrayList<>();
+        }
     }
+
 
 }

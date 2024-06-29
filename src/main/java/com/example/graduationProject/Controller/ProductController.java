@@ -56,8 +56,10 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Product>> searchProducts(@RequestParam String productName) {
-        List<Product> products = productService.searchProducts(productName);
+    public ResponseEntity<List<Product>> searchProducts(
+             @RequestParam(required = false) String productName,
+            @RequestParam (required = false) String category) {
+        List<Product> products = productService.searchProducts(productName, category);
         return ResponseEntity.ok(products);
     }
 }
