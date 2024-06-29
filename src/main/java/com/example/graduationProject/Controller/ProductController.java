@@ -4,6 +4,7 @@ import com.example.graduationProject.Entity.Product;
 import com.example.graduationProject.Entity.User;
 import com.example.graduationProject.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,5 +53,11 @@ public class ProductController {
     @DeleteMapping("/delete/products/{productId}")
     public boolean deleteProduct(@PathVariable ("productId") int productId){
         return productService.deleteProduct(productId);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String productName) {
+        List<Product> products = productService.searchProducts(productName);
+        return ResponseEntity.ok(products);
     }
 }

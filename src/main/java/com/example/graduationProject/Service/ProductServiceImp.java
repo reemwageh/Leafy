@@ -71,4 +71,9 @@ public class ProductServiceImp implements ProductService{
         return productRepository.findByCategory(category);
     }
 
+    @Override
+    public List<Product> searchProducts(String productName) {
+        return productRepository.findByProductNameContainingIgnoreCase(productName);
+    }
+
 }

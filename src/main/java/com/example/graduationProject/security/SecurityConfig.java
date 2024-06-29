@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .requestMatchers("/get/products/").permitAll()
                 .requestMatchers("/users/create").permitAll()
                 .requestMatchers("/login").permitAll()
+                .requestMatchers("/search").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
