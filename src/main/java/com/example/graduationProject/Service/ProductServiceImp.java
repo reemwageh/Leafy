@@ -81,7 +81,7 @@ public class ProductServiceImp implements ProductService{
         } else if (category != null && !category.isEmpty()) {
             return productRepository.findByCategoryContainingIgnoreCase(category);
         } else {
-            return new ArrayList<>();
+            return productRepository.findAll();
         }
     }
 
