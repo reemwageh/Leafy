@@ -45,6 +45,10 @@ public class Order {
     )
     private List<Product> products = new ArrayList<>();
 
+    @PrePersist
+    protected void onCreate() {
+        date = LocalDate.now();  // Set the current date automatically before persisting the entity.
+    }
 
 
 }
