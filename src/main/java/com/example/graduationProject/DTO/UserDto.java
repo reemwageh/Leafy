@@ -25,7 +25,7 @@ public class UserDto implements UserDetails {
     private String password;
     private String address;
     private String email;
-    private UserType user_type;
+    private UserType user_type = new UserType(2);
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

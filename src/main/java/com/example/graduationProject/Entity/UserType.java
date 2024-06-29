@@ -23,5 +23,9 @@ public class UserType {
     @Column(name="type_name")
     private String typeName;
 
+    public UserType(int typeId) {
+        this.typeId = typeId;
+    }
+
 
 }
