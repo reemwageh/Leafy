@@ -20,8 +20,7 @@ public class Order {
     private int orderId;
     @Column(name = "total_price")
     private float total_price;
-    @Column(name="Quantity")
-    private int quantity;
+
     @Column(name="date")
     private LocalDate date;
     @OneToOne
