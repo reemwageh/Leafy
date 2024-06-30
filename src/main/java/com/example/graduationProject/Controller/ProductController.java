@@ -55,11 +55,27 @@ public class ProductController {
         return productService.deleteProduct(productId);
     }
 
+//    @GetMapping("/search")
+//    public ResponseEntity<List<Product>> searchProducts(
+//             @RequestParam(required = false) String productName,
+//            @RequestParam (required = false) String category) {
+//        List<Product> products = productService.searchProducts(productName, category);
+//        return ResponseEntity.ok(products);
+//    }
+
     @GetMapping("/search")
-    public ResponseEntity<List<Product>> searchProducts(
-             @RequestParam(required = false) String productName,
-            @RequestParam (required = false) String category) {
-        List<Product> products = productService.searchProducts(productName, category);
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String searchTerm) {
+        List<Product> products;
+        if (searchTerm.contains(",")) {
+            // Invalid request if searchTerm contains a comma
+            return ResponseEntity.badRequest().body(null);
+        }
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            products = productService.searchProducts(searchTerm, searchTerm);
+        } else {
+            products = productService.searchProducts(null, null);
+        }
         return ResponseEntity.ok(products);
     }
+
 }

@@ -72,18 +72,32 @@ public class ProductServiceImp implements ProductService{
         return productRepository.findByCategory(category);
     }
 
+//    @Override
+//    public List<Product> searchProducts(String productName, String category) {
+//        if (productName != null && !productName.isEmpty() && category != null && !category.isEmpty()) {
+//            return productRepository.findByProductNameContainingIgnoreCaseAndCategoryContainingIgnoreCase(productName, category);
+//        } else if (productName != null && !productName.isEmpty()) {
+//            return productRepository.findByProductNameContainingIgnoreCase(productName);
+//        } else if (category != null && !category.isEmpty()) {
+//            return productRepository.findByCategoryContainingIgnoreCase(category);
+//        } else {
+//            return productRepository.findAll();
+//        }
+//    }
+
     @Override
-    public List<Product> searchProducts(String productName, String category) {
-        if (productName != null && !productName.isEmpty() && category != null && !category.isEmpty()) {
-            return productRepository.findByProductNameContainingIgnoreCaseAndCategoryContainingIgnoreCase(productName, category);
-        } else if (productName != null && !productName.isEmpty()) {
-            return productRepository.findByProductNameContainingIgnoreCase(productName);
-        } else if (category != null && !category.isEmpty()) {
-            return productRepository.findByCategoryContainingIgnoreCase(category);
+    public List<Product> searchProducts(String searchTerm, String ignore) {
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            List<Product> byName = productRepository.findByProductNameContainingIgnoreCase(searchTerm);
+            List<Product> byCategory = productRepository.findByCategoryContainingIgnoreCase(searchTerm);
+            List<Product> combined = new ArrayList<>(byName);
+            combined.addAll(byCategory);
+            return new ArrayList<>(combined);
         } else {
             return productRepository.findAll();
         }
     }
+
 
 
 }
