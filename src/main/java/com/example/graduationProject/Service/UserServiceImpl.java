@@ -9,7 +9,6 @@ import com.example.graduationProject.Repository.UserTypeRepository;
 import com.example.graduationProject.security.JwtUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -102,7 +101,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public LoginResponse login(String email, String password) {
+    public LoginResponse login(String email, String password ) {
         UserDto userDetails = null;
             try {
                 userDetails = (UserDto) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password)).getPrincipal();
@@ -110,7 +109,7 @@ public class UserServiceImpl implements UserService{
                 e.printStackTrace();
                 throw new RuntimeException("User is not authorized");
             }
-            return new LoginResponse(userDetails.getEmail(), jwtUtils.generateJwtToken(userDetails));
+            return new LoginResponse(userDetails.getEmail(),jwtUtils.generateJwtToken(userDetails) , userDetails.getUser_type().getTypeId());
 
     }
 
