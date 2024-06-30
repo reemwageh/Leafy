@@ -9,6 +9,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -80,5 +81,10 @@ public class JwtUtils {
                 .setExpiration(new Date((new Date()).getTime() + config.getJwtExpirationMs()))
                 .signWith(SignatureAlgorithm.HS512, config.getJwtSecret())
                 .compact();
+    }
+
+    public UserDto getCurrentUser() {
+        UserDto userDto = (UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userDto;
     }
 }

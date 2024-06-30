@@ -23,9 +23,9 @@ public class Order {
 
     @Column(name="date")
     private LocalDate date;
-    @OneToOne
-    @JoinColumn(name = "ordercart", referencedColumnName = "c_Id")
-    private Cart orderCart;
+//    @OneToOne
+//    @JoinColumn(name = "ordercart", referencedColumnName = "c_Id")
+//    private Cart orderCart;
     @OneToOne
     @JoinColumn(name = "orderpaymenttype", referencedColumnName = "payment_Id")
     private PaymentType orderPaymentType;

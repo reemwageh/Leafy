@@ -2,7 +2,10 @@ package com.example.graduationProject.Service;
 
 import com.example.graduationProject.Entity.Order;
 import com.example.graduationProject.Entity.Product;
+import com.example.graduationProject.Entity.User;
 import com.example.graduationProject.Repository.*;
+import com.example.graduationProject.security.JwtUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,8 @@ public class OrderServiceImp implements OrderService{
     @Autowired
     CartRepository cartRepository;
     @Autowired
+    JwtUtils jwtUtils;
+    @Autowired
     PaymentTypeRepository paymentTypeRepository;
     @Autowired
     ShippingRepository shippingRepository;
@@ -22,6 +27,8 @@ public class OrderServiceImp implements OrderService{
     UserRepository userRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    ModelMapper mapper;
 
 
     private float calculateTotalPrice(Order order) {
@@ -50,10 +57,10 @@ public class OrderServiceImp implements OrderService{
 
 
     public Order addNewOrder(Order order) {
-        order.setOrderCart(cartRepository.findById(order.getOrderCart().getCartId()).orElseThrow());
+//        order.setOrderCart(cartRepository.findById(order.getOrderCart().getCartId()).orElseThrow());
         order.setOrderPaymentType(paymentTypeRepository.findById(order.getOrderPaymentType().getPaymentId()).orElseThrow());
         order.setOrderShipping(shippingRepository.findById(order.getOrderShipping().getShippingID()).orElseThrow());
-        order.setOrderUser(userRepository.findById(order.getOrderUser().getUserId()).orElseThrow());
+        order.setOrderUser(mapper.map(jwtUtils.getCurrentUser(), User.class));
 
         List<Product> productsSet = new ArrayList<>();
         for (Product product : order.getProducts()) {
