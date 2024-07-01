@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class ProductServiceImp implements ProductService{
+public class ProductServiceImp implements ProductService {
     @Autowired
     ProductRepository productRepository;
+
     @Override
     public Product addNewProduct(Product product) {
         return productRepository.save(product);
@@ -34,24 +36,20 @@ public class ProductServiceImp implements ProductService{
     @Override
     public Product updateProduct(int productId, Product product) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
-        if (optionalProduct.isPresent()){
+        if (optionalProduct.isPresent()) {
             Product existingProduct = optionalProduct.get();
-            existingProduct.setProductName(product.getProductName());
-            existingProduct.setProductDesc(product.getProductDesc());
-            existingProduct.setCategory(product.getCategory());
-            existingProduct.setProductId(product.getProductId());
             existingProduct.setPrice(product.getPrice());
+            existingProduct.setQuantity(product.getQuantity());
             return productRepository.save(existingProduct);
-        }
-        else {
+        } else {
             return null;
         }
     }
 
 
     @Override
-    public boolean deleteProduct(int productId)  {
-        if (productRepository.findById(productId).isPresent()){
+    public boolean deleteProduct(int productId) {
+        if (productRepository.findById(productId).isPresent()) {
             productRepository.deleteById(productId);
             return true;
         }
@@ -67,6 +65,7 @@ public class ProductServiceImp implements ProductService{
 
         return productRepository.save(product);
     }
+
     @Override
     public List<Product> getProductsByCategory(String category) {
         return productRepository.findByCategory(category);
@@ -100,4 +99,7 @@ public class ProductServiceImp implements ProductService{
 
 
 
-}
+    }
+
+
+
