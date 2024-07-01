@@ -76,16 +76,6 @@ public class UserServiceImpl implements UserService{
             existingUser.setFirstName(user.getFirstName());
             existingUser.setLastName(user.getLastName());
             existingUser.setEmail(user.getEmail());
-
-            if (user.getUser_type() != null) {
-                Optional<UserType> optionalUserType = userTypeRepository.findById(user.getUser_type().getTypeId());
-                if (optionalUserType.isPresent()) {
-                    existingUser.setUser_type(optionalUserType.get());
-                }
-            } else {
-                existingUser.setUser_type(null);
-            }
-
             return userRepository.save(existingUser);
         } else {
             return null;
